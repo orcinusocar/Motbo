@@ -1,0 +1,44 @@
+<mujoco model="simple_arm">
+  <compiler angle="radian" autolimits="true"/>
+  <option timestep="0.002" gravity="0 0 -9.81"/>
+  <statistic center="0.15 0 0.18" extent="0.6"/>
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.4 0.4 0.4"/>
+    <global azimuth="135" elevation="-20"/>
+  </visual>
+  <default>
+    <joint damping="0.8" armature="0.01"/>
+    <position kp="80" kv="8"/>
+  </default>
+  <asset>
+    <texture name="grid" type="2d" builtin="checker" rgb1="0.85 0.85 0.85" rgb2="0.62 0.62 0.62" width="512" height="512"/>
+    <material name="grid" texture="grid" texrepeat="4 4" texuniform="true" reflectance="0.05"/>
+  </asset>
+  <worldbody>
+    <light name="key" pos="0.5 -0.5 1.2" dir="-0.3 0.3 -1" diffuse="0.8 0.8 0.8"/>
+    <camera name="side" pos="0.55 -0.75 0.38" xyaxes="1 0.75 0 -0.15 0.2 1"/>
+    <geom name="floor" type="plane" size="1 1 0.1" material="grid"/>
+    <geom name="box" type="box" pos="0.42 0.22 0.04" size="0.05 0.05 0.04" rgba="0.25 0.7 0.4 1"/>
+    <body name="base" pos="0 0 0.05">
+      <geom name="base" type="cylinder" size="0.07 0.05" rgba="0.28 0.28 0.32 1"/>
+      <body name="link1" pos="0 0 0.05">
+        <joint name="shoulder" type="hinge" axis="0 1 0" range="-1.8 1.8"/>
+        <geom name="shoulder_hub" type="cylinder" size="0.035 0.03" euler="1.5708 0 0" rgba="0.2 0.45 0.8 1"/>
+        <geom name="link1" type="capsule" fromto="0 0 0 0.22 0 0.16" size="0.028" rgba="0.2 0.55 0.9 1"/>
+        <body name="link2" pos="0.22 0 0.16">
+          <joint name="elbow" type="hinge" axis="0 1 0" range="-2.4 2.4"/>
+          <geom name="elbow_hub" type="cylinder" size="0.028 0.025" euler="1.5708 0 0" rgba="0.9 0.5 0.2 1"/>
+          <geom name="link2" type="capsule" fromto="0 0 0 0.2 0 0" size="0.022" rgba="0.95 0.55 0.2 1"/>
+          <geom name="ee" type="sphere" pos="0.2 0 0" size="0.032" rgba="0.9 0.2 0.2 1"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <position name="shoulder" joint="shoulder" ctrlrange="-1.8 1.8"/>
+    <position name="elbow" joint="elbow" ctrlrange="-2.4 2.4"/>
+  </actuator>
+  <keyframe>
+    <key name="home" qpos="0.4 -0.8" ctrl="0.4 -0.8"/>
+  </keyframe>
+</mujoco>

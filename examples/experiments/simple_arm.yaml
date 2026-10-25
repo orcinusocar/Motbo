@@ -1,0 +1,7 @@
+name: simple_arm_swing
+model: examples/models/simple_arm.xml
+config:
+  duration: 1.0
+  timestep: 0.002
+  seed: 0
+  save_trajectory: true
